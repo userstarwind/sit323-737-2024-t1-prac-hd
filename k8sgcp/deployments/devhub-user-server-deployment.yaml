@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devhub-user-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devhub-user-server
+  template:
+    metadata:
+      labels:
+        app: devhub-user-server
+    spec:
+      containers:
+      - name: devhub-user-server
+        image: australia-southeast2-docker.pkg.dev/sit323-24t1-jiang-6c5fe35/devhub/devhub-user
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: user-service-port
+        - name: SECURE_SERVER_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: secure-server-url
+        - name: MONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: mongo-username
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: mongo-password

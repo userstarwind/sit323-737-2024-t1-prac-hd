@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devhub-user-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devhub-user-server
+  template:
+    metadata:
+      labels:
+        app: devhub-user-server
+    spec:
+      containers:
+      - name: devhub-user-server
+        image: starwindsurf/devhub-user-image:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MONGO_SERVICE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: mongodb-service-host
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: user-service-port
+        - name: SECURE_SERVER_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: secure-server-url
+        - name: MONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: mongo-username
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: mongo-password

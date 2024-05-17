@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devhub-secure-service
+spec:
+  selector:
+    app: devhub-secure-server
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+
+
+

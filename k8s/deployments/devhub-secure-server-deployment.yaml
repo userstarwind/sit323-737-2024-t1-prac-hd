@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devhub-secure-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devhub-secure-server
+  template:
+    metadata:
+      labels:
+        app: devhub-secure-server
+    spec:
+      containers:
+      - name: devhub-secure-server
+        image: starwindsurf/devhub-secure-image:latest
+        ports:
+        - containerPort: 8081
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: secure-service-port

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devhub-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devhub
+  template:
+    metadata:
+      labels:
+        app: devhub
+    spec:
+      containers:
+      - name: devhub
+        image: starwindsurf/devhub-image:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+

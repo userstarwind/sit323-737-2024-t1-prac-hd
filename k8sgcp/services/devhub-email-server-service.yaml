@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devhub-email-service
+spec:
+  selector:
+    app: devhub-email-server
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+
+
+

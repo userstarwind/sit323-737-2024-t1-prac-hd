@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devhub-secure-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devhub-secure-server
+  template:
+    metadata:
+      labels:
+        app: devhub-secure-server
+    spec:
+      containers:
+      - name: devhub-secure-server
+        image: australia-southeast2-docker.pkg.dev/sit323-24t1-jiang-6c5fe35/devhub/devhub-secure
+        ports:
+        - containerPort: 8081
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: secure-service-port

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devhub-email-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devhub-email-server
+  template:
+    metadata:
+      labels:
+        app: devhub-email-server
+    spec:
+      containers:
+      - name: devhub-email-server
+        image: australia-southeast2-docker.pkg.dev/sit323-24t1-jiang-6c5fe35/devhub/devhub-email
+        ports:
+        - containerPort: 8082
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: email-service-port
+        - name: SENDGRID_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: send-grid-api-key 
+
+
